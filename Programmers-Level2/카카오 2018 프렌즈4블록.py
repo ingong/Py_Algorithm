@@ -41,4 +41,4 @@ def solution(m, n, board):
             if value == ' ':
                 count += 1
                 
-    return count
+    return counta
