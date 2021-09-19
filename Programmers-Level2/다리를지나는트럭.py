@@ -1,21 +1,26 @@
 from collections import deque
 
 def solution(bridge_length, weight, truck_weights):
-    bridge = deque(0 for _ in range(bridge_length))
-    total_weight = 0
-    step = 0
-    truck_weights.reverse()
-
-    while truck_weights:
-        total_weight -= bridge.popleft()
-        if total_weight + truck_weights[-1] > weight:
-            bridge.append(0)
+    truck_waiting = deque(truck_weights)
+    on_bridge = deque()
+    time = 0
+    
+    while True:
+        if on_bridge and on_bridge[0].get('progress') == bridge_length:
+            on_bridge.popleft()
         else:
-            truck = truck_weights.pop()
-            bridge.append(truck)
-            total_weight += truck
-        step += 1
-
-    step += bridge_length
-
-    return step
+            pass
+        
+        if truck_waiting and (sum([truck.get('w') for truck in on_bridge]) + truck_waiting[0] <= weight):
+            on_bridge.append({'w' : truck_waiting.popleft(), 'progress': 0})
+        else: 
+            pass
+        
+        for truck in on_bridge:
+            truck['progress'] += 1
+        
+        time += 1
+        if len(on_bridge) == 0 and len(truck_waiting) == 0:
+            break
+            
+    return time
