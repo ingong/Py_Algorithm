@@ -1,11 +1,11 @@
+# words[p] in words[:p]: 같은 문자가 있는지 조회하는 방법, list slicing 을 활용
 def solution(n, words):
-    answer = [0, 0]
-    count = 1 
-    for idx in range(1, len(words)): 
-        word = words[idx] 
-        count %= n 
-        if (word in words[0:idx]) or (words[idx-1][-1] != word[0]): 
-            answer = [count +1, 1 + idx//n]
-            return answer 
-        count +=1 
-    return answer
+    for i, word in enumerate(words):
+        if i != 0:
+            if (words.index(word) != i) or (word[0] != words[i-1][-1]) or (len(word) < 2):
+                return [(i % n) + 1, i// n + 1]   
+        else:
+            if len(word) < 2:
+                return [1, 1]
+        
+    return [0, 0]
